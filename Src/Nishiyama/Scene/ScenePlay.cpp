@@ -9,9 +9,18 @@
 #include "ScenePlay.h"
 #include "SceneResult.h"
 
+//プレイシーン画像パス
+const char* PLAY_IMAGE_PATH[SCENE_PLAY_IMAGE_NUM] =
+{
+	SCENE_PLAY_BACK_PATH,		//プレイシーン背景パス
+
+
+};
+
 //プレイシーン初期化
 void ScenePlay::Init()
 {
+
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_PLAY;
 }
 
