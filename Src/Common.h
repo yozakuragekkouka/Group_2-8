@@ -1,4 +1,14 @@
-#pragma once
+#ifndef __COMMON_H__
+#define __COMMON_H__
 
-#define SCREEN_SIZE_X 1280	//画面サイズ 横
-#define SCREEN_SIZE_Y 720	//画面サイズ 縦
+//ウィンドウの幅・高さ
+#define SCREEN_SIZE_X	(720)
+#define SCREEN_SIZE_Y	(1280)
+
+#define FULL_SCREEN_SIZE_X	(1920)
+#define FULL_SCREEN_SIZE_Y	(1920)
+
+//設定フレームレート
+#define FRAME_RATE	(60)
+
+#endif
