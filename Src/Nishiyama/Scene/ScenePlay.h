@@ -7,6 +7,7 @@ constexpr char PLAY_BG_PATH[128] = "Data/Image/ScenePlay/PlaySceneBackImage.png"
 class ScenePlay : public SceneBase
 {
 private:
+	Rect_Data Back;
 
 public:
 	void Init();
