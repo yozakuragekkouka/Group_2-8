@@ -2,20 +2,8 @@
 
 #include "DxLib.h"
 #include "../../Common.h"
-#include "../FrameRate/FrameRate.h"
 #include "../Input/Input.h"
-#include "Scene.h"
-#include "SceneTitle.h"
 #include "ScenePlay.h"
-#include "SceneResult.h"
-
-//プレイシーン画像パス
-const char* PLAY_IMAGE_PATH[SCENE_PLAY_IMAGE_NUM] =
-{
-	SCENE_PLAY_BACK_PATH,		//プレイシーン背景パス
-
-
-};
 
 //プレイシーン初期化
 void ScenePlay::Init()
