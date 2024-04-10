@@ -37,6 +37,12 @@ void SceneTitle::Step()
 		}
 	}
 
+	if (CheckHitKey(KEY_INPUT_RETURN) == 1)
+	{
+
+		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_TITLE;
+	}
+
 	if (Input::ClickRect_Center(TitleSoloText))
 	{
 		ScoreManager::SetMulti_Flag(false);
@@ -60,6 +66,9 @@ void SceneTitle::Draw()
 	TitleSoloText.DrawRect_Rota_Center();
 	TitleMultiText.DrawRect_Rota_Center();
 
+	//デバッグ
+	DrawFormatString(100, 100, GetColor(255, 255, 255), "タイトルシーンです", true);
+	
 	Card[multiNum].DrawRect_Rota_Center();
 }
 

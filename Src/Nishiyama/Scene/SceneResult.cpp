@@ -23,13 +23,19 @@ void SceneResult::Step()
 	{
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_RESULT;
 	}
+
 }
 
 //クリア描画処理
 void SceneResult::Draw()
 {
+<<<<<<< Updated upstream
 	DrawGraph(0, 0, Result_BG_Hndl, true);
 	DrawGraph(500, 500, TextHndl, true);
+=======
+	//デバッグ
+	DrawFormatString(100, 100, GetColor(255, 255, 255), "リザルトシーンです", true);
+>>>>>>> Stashed changes
 }
 
 //クリア後処理
