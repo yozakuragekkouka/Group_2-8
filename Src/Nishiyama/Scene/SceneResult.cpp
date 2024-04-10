@@ -11,6 +11,7 @@
 void SceneResult::Init()
 {
 	Result_BG_Hndl = LoadGraph(RESULT_BG_PATH);
+	TextHndl = LoadGraph(TEXT_PATH);
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_RESULT;
 }
@@ -28,12 +29,14 @@ void SceneResult::Step()
 void SceneResult::Draw()
 {
 	DrawGraph(0, 0, Result_BG_Hndl, true);
+	DrawGraph(500, 500, TextHndl, true);
 }
 
 //ÉNÉäÉAå„èàóù
 void SceneResult::Fin()
 {
 	DeleteGraph(Result_BG_Hndl);
+	DeleteGraph(TextHndl);
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
 }

@@ -2,12 +2,15 @@
 #include "Scene.h"
 
 #define RESULT_BG_PATH		"Data/Image/SceneResult/Result_BG.png"
+#define TEXT_PATH			"Data/Image/SceneResult/Win!!.png"
 
 
 class SceneResult : public SceneBase
 {
 private:
-	int Result_BG_Hndl = 0;
+	int Result_BG_Hndl;		//”wŒi‰æ‘œŠi”[•Ï”
+	int TextHndl;			//ƒeƒLƒXƒg‰æ‘œŠi”[•Ï”
+
 public:
 	void Init();
 
