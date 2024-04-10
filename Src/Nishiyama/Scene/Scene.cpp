@@ -1,13 +1,14 @@
 #include "DxLib.h"
 #include "Scene.h"
+#include "SceneTitle.h"
+#include "ScenePlay.h"
+#include "SceneResult.h"
 
 SCENEID SceneManager::SceneManager::g_CurrenySceneID;	//åªç›ÇÃÉVÅ[ÉìID
 
 SceneManager::SceneManager()
 {
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
-
-	RetryFlag = false;
 
 	scene = nullptr;
 }
@@ -21,8 +22,6 @@ SceneManager::~SceneManager()
 void SceneManager::SceneInit()
 {
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
-
-	RetryFlag = false;
 
 	scene = nullptr;
 }
