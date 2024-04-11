@@ -30,7 +30,7 @@ void SceneResult::Step()
 void SceneResult::Draw()
 {
 	DrawGraph(0, 0, Result_BG_Hndl, true);
-	DrawGraph(500, 500, TextHndl, true);
+	DrawGraph(400, 470, TextHndl, true);
 
 	//デバッグ
 	DrawFormatString(100, 100, GetColor(255, 255, 255), "リザルトシーンです", true);
