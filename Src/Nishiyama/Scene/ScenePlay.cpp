@@ -36,8 +36,7 @@ void ScenePlay::Draw()
 {
 	Back.DrawRect();
 
-	//デバッグ
-	DrawFormatString(100, 100, GetColor(255, 255, 255), "プレイシーンです", true);
+	
 
 	switch (ScoreManager::GetMulti_Flag())
 	{
