@@ -29,11 +29,9 @@ void SceneResult::Step()
 //クリア描画処理
 void SceneResult::Draw()
 {
-	DrawGraph(0, 0, Result_BG_Hndl, true);
-	DrawGraph(500, 500, TextHndl, true);
+	DrawGraph(0, 0, Result_BG_Hndl, true);		//背景画像描画
+	DrawGraph(400, 470, TextHndl, true);		//テキスト画像描画
 
-	//デバッグ
-	DrawFormatString(100, 100, GetColor(255, 255, 255), "リザルトシーンです", true);
 }
 
 //クリア後処理

@@ -2,7 +2,7 @@
 #include "Scene.h"
 
 #define RESULT_BG_PATH		"Data/Image/SceneResult/Result_BG.png"
-#define TEXT_PATH			"Data/Image/SceneResult/Win!!.png"
+#define TEXT_PATH			"Data/Image/SceneResult/Text.png"
 
 
 class SceneResult : public SceneBase
