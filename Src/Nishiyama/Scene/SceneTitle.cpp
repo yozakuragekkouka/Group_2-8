@@ -37,9 +37,8 @@ void SceneTitle::Step()
 		}
 	}
 
-	if (CheckHitKey(KEY_INPUT_RETURN) == 1)
+	if (Input::PressAnyKey())
 	{
-
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_TITLE;
 	}
 

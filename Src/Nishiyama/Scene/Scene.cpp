@@ -21,7 +21,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::SceneInit()
 {
-	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_RESULT;
+	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
 
 	scene = nullptr;
 }
