@@ -11,6 +11,8 @@ void ScenePlay::Init()
 {
 	Back.RectInit(LoadGraph(PLAY_BG_PATH), VGet(0.0f, 0.0f, 0.0f), 1280, 720);
 
+	card.Init();
+
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_PLAY;
 }
 
@@ -20,6 +22,7 @@ void ScenePlay::Step()
 	switch (ScoreManager::GetMulti_Flag())
 	{
 	case true:
+		card.Step();
 		break;
 	case false:
 		break;
@@ -36,7 +39,7 @@ void ScenePlay::Draw()
 {
 	Back.DrawRect();
 
-	
+	card.Draw();
 
 	switch (ScoreManager::GetMulti_Flag())
 	{
@@ -52,6 +55,8 @@ void ScenePlay::Draw()
 void ScenePlay::Fin()
 {
 	Back.RectFin();
+
+	card.Fin();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_RESULT;
 }
