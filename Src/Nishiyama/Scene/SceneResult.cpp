@@ -13,24 +13,38 @@ void SceneResult::Init()
 	Result_BG_Hndl = LoadGraph(RESULT_BG_PATH);
 	TextHndl = LoadGraph(TEXT_PATH);
 
+	TextPosX = 400;
+	TextPosY = 470;
+	MousePosX = MousePosY = 0;
+
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_RESULT;
 }
 
 //クリア通常処理
 void SceneResult::Step()
 {
-	if (Input::PressAnyKey())
-	{
-		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_RESULT;
-	}
+	//マウスの座標を取得する
+	GetMousePoint(&MousePosX, &MousePosY);
 
+	//マウスを押したときにマウス座標が画像の範囲内にあればシーンを終わる
+	if (GetMouseInput() & MOUSE_INPUT_LEFT)
+	{
+		if (MousePosX > TextPosX && MousePosX < TextPosX + TEXT_WIDHT
+			&& MousePosY > TextPosY && MousePosY < TextPosY + TEXT_HEIGHT)
+		{
+			SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_RESULT;
+		}
+	}
 }
 
 //クリア描画処理
 void SceneResult::Draw()
 {
-	DrawGraph(0, 0, Result_BG_Hndl, true);		//背景画像描画
-	DrawGraph(400, 470, TextHndl, true);		//テキスト画像描画
+	DrawGraph(0, 0, Result_BG_Hndl, true);				//背景画像描画
+	DrawGraph(TextPosX, TextPosY, TextHndl, true);		//テキスト画像描画
+
+	DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
+	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);
 
 }
 
