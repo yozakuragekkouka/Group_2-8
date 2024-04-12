@@ -4,18 +4,19 @@
 
 void CardManager::Init()
 {
+	wait_count = 0;
 	Now_Player = 0;
 
-	canOpen = false;
+	canOpen = true;
 	currentOpenNum = 0;
 
 	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 	{
 		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
 		{
-			Card[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_PATH[MarkIndex][NumberIndex]), VGet(100.0f + (Card_sizeX + Card_spaceX) * NumberIndex, 100.0f + (Card_sizeY + Card_spaceY) * MarkIndex, 0.0f), Card_sizeX, Card_sizeY);
-			Card_Back[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_BACK_PATH), VGet(100.0f + (Card_sizeX + Card_spaceX) * NumberIndex, 100.0f + (Card_sizeY + Card_spaceY) * MarkIndex, 0.0f), Card_sizeX, Card_sizeY);
-			isAlive[MarkIndex][NumberIndex] = false;
+			Card[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_PATH[MarkIndex][NumberIndex]), VGet(Card_FirstPosX + ((float)Card_sizeX + Card_spaceX) * NumberIndex, Card_FirstPosY + ((float)Card_sizeY + Card_spaceY) * MarkIndex, 0.0f), Card_sizeX, Card_sizeY);
+			Card_Back[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_BACK_PATH), VGet(Card_FirstPosX + ((float)Card_sizeX + Card_spaceX) * NumberIndex, Card_FirstPosY + ((float)Card_sizeY + Card_spaceY) * MarkIndex, 0.0f), Card_sizeX, Card_sizeY);
+			isDead[MarkIndex][NumberIndex] = false;
 			isOpen_now[MarkIndex][NumberIndex] = false;
 
 			isOpened[MarkIndex][NumberIndex] = false;
@@ -29,16 +30,19 @@ void CardManager::Step()
 	{
 		wait_count++;
 	}
-	else if (wait_count == WAIT_FRAME)
+	else if (wait_count >= WAIT_FRAME)
 	{
 		for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 		{
 			for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
 			{
+				if (isDead[MarkIndex][NumberIndex])
+					continue;
 				if (isOpen_now[MarkIndex][NumberIndex])
 					isOpen_now[MarkIndex][NumberIndex] = false;
 			}
 		}
+		currentOpenNum = 0;
 
 		Now_Player++;
 		if (Now_Player > ScoreManager::GetAll_playerNum() - 1)
@@ -67,13 +71,15 @@ void CardManager::Draw()
 	{
 		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
 		{
+			if (isDead[MarkIndex][NumberIndex])
+				continue;
 			if (isOpen_now[MarkIndex][NumberIndex])
 			{
-				Card[MarkIndex][NumberIndex].DrawRect_Rota_Center();
+				Card[MarkIndex][NumberIndex].DrawRect();
 			}
 			else
 			{
-				Card_Back[MarkIndex][NumberIndex].DrawRect_Rota_Center();
+				Card_Back[MarkIndex][NumberIndex].DrawRect();
 			}
 		}
 	}
@@ -101,7 +107,9 @@ void CardManager::CardOpen()
 			{
 				for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
 				{
-					if (Input::ClickRect_Center(Card[MarkIndex][NumberIndex]))
+					if (isDead[MarkIndex][NumberIndex])
+						continue;
+					if (Input::ClickRect(Card[MarkIndex][NumberIndex]))
 					{
 						isOpen_now[MarkIndex][NumberIndex] = true;
 						currentOpenNum++;
@@ -132,7 +140,8 @@ bool CardManager::Judge()
 		{
 			for (NumberIndex = 0; NumberIndex < 13; NumberIndex++)
 			{
-				
+				if (isDead[MarkIndex_1][NumberIndex])
+					continue;
 				if(isOpen_now[MarkIndex_1][NumberIndex])
 					break;
 				
@@ -146,7 +155,10 @@ bool CardManager::Judge()
 			{
 				isOpen_now[MarkIndex_1][NumberIndex] = false;
 				isOpen_now[MarkIndex_2][NumberIndex] = false;
+				isDead[MarkIndex_1][NumberIndex] = true;
+				isDead[MarkIndex_2][NumberIndex] = true;
 
+				currentOpenNum = 0;
 				return true;
 			}
 		}
@@ -155,4 +167,5 @@ bool CardManager::Judge()
 		wait_count++;
 		return false;
 	}
+	return false;
 }

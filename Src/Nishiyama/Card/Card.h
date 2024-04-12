@@ -1,13 +1,16 @@
 #pragma once
 #include "../Shapes/Shapes.h"
 
-constexpr int Card_sizeX = 100;
-constexpr int Card_sizeY = 200;
+constexpr int Card_sizeX = 54;
+constexpr int Card_sizeY = 80;
 
-constexpr int Card_spaceX = 50;
-constexpr int Card_spaceY = 50;
+constexpr float Card_FirstPosX = 150.0f;
+constexpr float Card_FirstPosY = 150.0f;
 
-constexpr int WAIT_FRAME = 60;
+constexpr float Card_spaceX = 20.0f;
+constexpr float Card_spaceY = 20.0f;
+
+constexpr float WAIT_FRAME = 60;
 
 enum class Mark
 {
@@ -83,7 +86,7 @@ constexpr char CARD_PATH[(int)Mark::MarkNum][13][128] =
 	},
 };
 
-constexpr char CARD_BACK_PATH[128] = "Data/Image/ScenePlay/トランプ裏面.png";
+constexpr char CARD_BACK_PATH[128] = "Data/Image/ScenePlay/トランプ裏面_ちび.png";
 
 class CardManager
 {
@@ -97,7 +100,7 @@ private:
 
 	Rect_Data Card[(int)Mark::MarkNum][13];
 	Rect_Data Card_Back[(int)Mark::MarkNum][13];
-	bool isAlive[(int)Mark::MarkNum][13];
+	bool isDead[(int)Mark::MarkNum][13];
 	bool isOpen_now[(int)Mark::MarkNum][13];
 
 	bool isOpened[(int)Mark::MarkNum][13];
