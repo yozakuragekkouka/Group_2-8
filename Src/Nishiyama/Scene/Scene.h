@@ -1,5 +1,7 @@
 #pragma once
 
+constexpr char MOUSE_POINTA_PATH[128] = "Data/Image/SceneTitle/MousePointa.png";
+
 enum class SCENEID
 {
 //èIóπÇÃID

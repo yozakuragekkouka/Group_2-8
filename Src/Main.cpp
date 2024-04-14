@@ -10,7 +10,7 @@
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
 	//ウィンドウの状態を設定
-	ChangeWindowMode(true);
+	ChangeWindowMode(false);
 
 	//画面サイズを設定
 	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, 32);

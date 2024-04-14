@@ -66,6 +66,7 @@ void SceneTitle::Draw()
 	TitleImage.DrawRect();
 	TitleSoloText.DrawRect_Rota_Center();
 	TitleMultiText.DrawRect_Rota_Center();
+	DrawMousePointa();
 
 	Card[multiNum].DrawRect_Rota_Center();
 }
@@ -86,4 +87,16 @@ void SceneTitle::Fin()
 	TitleBGM.FinBGM();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_PLAY;
+}
+
+//マウスポインタ描画処理
+void SceneTitle::DrawMousePointa()
+{
+	int mousepoint = 0;
+
+	mousepoint = LoadGraph(MOUSE_POINTA_PATH);
+
+	//マウス位置取得
+	DrawRotaGraph(Input::GetMousePos().x, Input::GetMousePos().y, 0.65f, 0.0f, mousepoint, true);
+
 }

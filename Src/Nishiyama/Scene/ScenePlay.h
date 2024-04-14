@@ -15,9 +15,14 @@ private:
 
 	CardManager card;
 
+	int mousepoint;
+
 public:
 	void Init();
 	void Step();
 	void Draw();
 	void Fin();
+
+	//マウスポインタ描画処理
+	void DrawMousePointa();
 };

@@ -49,6 +49,9 @@ void ScenePlay::Draw()
 
 	card.Draw();
 
+	//マウスポインタ描画処理
+	DrawMousePointa();
+
 	for (int i = 0; i < ScoreManager::GetAll_playerNum(); i++)
 	{
 		scorefont[i].Draw_int(ScoreManager::GetScore(i));
@@ -64,4 +67,16 @@ void ScenePlay::Fin()
 	card.Fin();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_RESULT;
+}
+
+//マウスポインタ描画処理
+void ScenePlay::DrawMousePointa()
+{
+	int mousepoint = 0;
+
+	mousepoint = LoadGraph(MOUSE_POINTA_PATH);
+
+	//マウス位置取得
+	DrawRotaGraph(Input::GetMousePos().x, Input::GetMousePos().y, 0.65f, 0.0f, mousepoint, true);
+
 }
