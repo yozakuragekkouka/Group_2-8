@@ -34,16 +34,9 @@ void ScenePlay::Init()
 //プレイシーン通常処理
 void ScenePlay::Step()
 {
-	switch (ScoreManager::GetMulti_Flag())
-	{
-	case true:
-		card.Step();
-		break;
-	case false:
-		break;
-	}
+	card.Step();
 
-	if (Input::PressAnyKey())
+	if (card.AllCard_isDead())
 	{
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_PLAY;
 	}
@@ -56,16 +49,9 @@ void ScenePlay::Draw()
 
 	card.Draw();
 
-	switch (ScoreManager::GetMulti_Flag())
+	for (int i = 0; i < ScoreManager::GetAll_playerNum(); i++)
 	{
-	case true:
-		for (int i = 0; i < ScoreManager::GetAll_playerNum(); i++)
-		{
-			scorefont[i].Draw_int(ScoreManager::GetScore(i));
-		}
-		break;
-	case false:
-		break;
+		scorefont[i].Draw_int(ScoreManager::GetScore(i));
 	}
 }
 

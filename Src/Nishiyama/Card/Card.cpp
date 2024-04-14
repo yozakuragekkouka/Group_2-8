@@ -27,8 +27,56 @@ void CardManager::Init()
 
 void CardManager::Step()
 {
+	//CPU処理
+	if (ScoreManager::GetMulti_Flag() == false && Now_Player == 1)
+	{
+		if (CPU_count >= WAIT_FRAME || wait_count > 0)
+		{
+			if (wait_count > 0 && wait_count < WAIT_FRAME)
+			{
+				wait_count++;
+				CPU_count--;
+			}
+			else if (wait_count >= WAIT_FRAME)
+			{
+				for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
+				{
+					for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
+					{
+						if (isDead[MarkIndex][NumberIndex])
+							continue;
+						if (isOpen_now[MarkIndex][NumberIndex])
+							isOpen_now[MarkIndex][NumberIndex] = false;
+					}
+				}
+				currentOpenNum = 0;
+
+				Now_Player++;
+				if (Now_Player > ScoreManager::GetAll_playerNum() - 1)
+				{
+					Now_Player = 0;
+				}
+				canOpen = true;
+
+				wait_count = 0;
+				CPU_count = 0;
+			}
+			else
+			{
+				CardOpen_CPU();
+
+				if (Judge())
+				{
+					canOpen = true;
+					ScoreManager::AddScore(Now_Player, 2);
+				}
+			}
+		}
+
+		CPU_count++;
+	}
 	//通常のプレイヤー処理
-	if (ScoreManager::GetMulti_Flag || (!ScoreManager::GetMulti_Flag && Now_Player < 1))
+	else
 	{
 		if (wait_count > 0 && wait_count < WAIT_FRAME)
 		{
@@ -67,16 +115,6 @@ void CardManager::Step()
 				ScoreManager::AddScore(Now_Player, 2);
 			}
 		}
-	}
-	//CPU処理
-	else
-	{
-		if (CPU_count >= WAIT_FRAME)
-		{
-
-		}
-		
-		CPU_count++;
 	}
 }
 
@@ -124,6 +162,8 @@ void CardManager::CardOpen()
 				{
 					if (isDead[MarkIndex][NumberIndex])
 						continue;
+					if (isOpen_now[MarkIndex][NumberIndex])
+						continue;
 					if (Input::ClickRect(Card[MarkIndex][NumberIndex]))
 					{
 						isOpen_now[MarkIndex][NumberIndex] = true;
@@ -138,6 +178,106 @@ void CardManager::CardOpen()
 							canOpen = false;
 					}
 				}
+			}
+		}
+	}
+}
+
+void CardManager::CardOpen_CPU()
+{
+	if (currentOpenNum < 2)
+	{
+		if (canOpen)
+		{
+			//揃えられる組があるか
+			int Card1[2] = { -1, -1 };
+			int Card2[2] = { -1, -1 };
+			
+			for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
+			{
+				Card1[0] = -1;	Card1[1] = -1;
+				Card2[0] = -1;	Card2[1] = -1;
+				for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
+				{
+					if (isDead[MarkIndex][NumberIndex])
+						continue;
+					if (isOpened[MarkIndex][NumberIndex])
+					{
+						if (Card1[0] == -1)
+						{
+							Card1[0] = MarkIndex;
+							Card1[1] = NumberIndex;
+						}
+						else
+						{
+							Card2[0] = MarkIndex;
+							Card2[1] = NumberIndex;
+							break;
+						}
+					}
+				}
+
+				if (Card1[0] != -1 && Card2[0] != -1)
+					break;
+			}
+
+			if (Card2[0] == -1)
+			{
+				Card1[0] = -1;
+				Card1[1] = -1;
+			}
+
+			//揃えられる組があれば
+			if (Card1[0] != -1 && Card2[0] != -1)
+			{
+				if(isOpen_now[Card1[0]][Card1[1]] != true)
+				{
+					isOpen_now[Card1[0]][Card1[1]] = true;
+					currentOpenNum++;
+
+					CPU_count = 0;
+				}
+				else
+				{
+					isOpen_now[Card2[0]][Card2[1]] = true;
+					currentOpenNum++;
+
+					CPU_count = 0;
+				}
+
+				if (currentOpenNum == 2)
+					canOpen = false;
+			}
+			//揃えられる組がなければ
+			else
+			{
+				while (Card1[0] == -1 || Card1[1] == -1)
+				{
+					int Buf_Mark = GetRand((int)Mark::MarkNum - 1);
+					int Buf_Number = GetRand(13 - 1);
+
+					if (isDead[Buf_Mark][Buf_Number])
+						continue;
+					if (isOpened[Buf_Mark][Buf_Number])
+						continue;
+					if (isOpen_now[Buf_Mark][Buf_Number])
+						continue;
+					Card1[0] = Buf_Mark;
+					Card1[1] = Buf_Number;
+				}
+
+			isOpen_now[Card1[0]][Card1[1]] = true;
+			currentOpenNum++;
+
+			if (isOpened[Card1[0]][Card1[1]] == false)
+			{
+				isOpened[Card1[0]][Card1[1]] = true;
+			}
+
+			CPU_count = 0;
+
+			if (currentOpenNum == 2)
+				canOpen = false;
 			}
 		}
 	}
@@ -183,4 +323,23 @@ bool CardManager::Judge()
 		return false;
 	}
 	return false;
+}
+
+bool CardManager::AllCard_isDead()
+{
+	int CardIndex = 0;
+
+	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
+	{
+		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
+		{
+			if (isDead[MarkIndex][NumberIndex])
+				CardIndex++;
+		}
+	}
+
+	if (CardIndex >= (int)Mark::MarkNum * 13)
+		return true;
+	else
+		return false;
 }

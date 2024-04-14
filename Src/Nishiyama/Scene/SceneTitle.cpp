@@ -45,7 +45,7 @@ void SceneTitle::Step()
 	if (Input::ClickRect_Center(TitleSoloText))
 	{
 		ScoreManager::SetMulti_Flag(false);
-		ScoreManager::SetAll_playerNum();
+		ScoreManager::SetAll_playerNum(2);
 
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_TITLE;
 	}

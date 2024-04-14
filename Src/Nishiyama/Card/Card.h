@@ -114,5 +114,8 @@ public:
 	void Fin();
 
 	void CardOpen();
+	void CardOpen_CPU();
 	bool Judge();
+
+	bool AllCard_isDead();
 };
