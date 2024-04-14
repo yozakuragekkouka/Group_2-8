@@ -98,6 +98,8 @@ private:
 
 	int wait_count;
 
+	int CPU_count;
+
 	Rect_Data Card[(int)Mark::MarkNum][13];
 	Rect_Data Card_Back[(int)Mark::MarkNum][13];
 	bool isDead[(int)Mark::MarkNum][13];

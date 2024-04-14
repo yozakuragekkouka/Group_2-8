@@ -5,6 +5,7 @@
 void CardManager::Init()
 {
 	wait_count = 0;
+	CPU_count = 0;
 	Now_Player = 0;
 
 	canOpen = true;
@@ -26,42 +27,56 @@ void CardManager::Init()
 
 void CardManager::Step()
 {
-	if (wait_count > 0 && wait_count < WAIT_FRAME)
+	//’Êí‚ÌƒvƒŒƒCƒ„[ˆ—
+	if (ScoreManager::GetMulti_Flag || (!ScoreManager::GetMulti_Flag && Now_Player < 1))
 	{
-		wait_count++;
-	}
-	else if (wait_count >= WAIT_FRAME)
-	{
-		for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
+		if (wait_count > 0 && wait_count < WAIT_FRAME)
 		{
-			for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
+			wait_count++;
+		}
+		else if (wait_count >= WAIT_FRAME)
+		{
+			for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 			{
-				if (isDead[MarkIndex][NumberIndex])
-					continue;
-				if (isOpen_now[MarkIndex][NumberIndex])
-					isOpen_now[MarkIndex][NumberIndex] = false;
+				for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
+				{
+					if (isDead[MarkIndex][NumberIndex])
+						continue;
+					if (isOpen_now[MarkIndex][NumberIndex])
+						isOpen_now[MarkIndex][NumberIndex] = false;
+				}
+			}
+			currentOpenNum = 0;
+
+			Now_Player++;
+			if (Now_Player > ScoreManager::GetAll_playerNum() - 1)
+			{
+				Now_Player = 0;
+			}
+			canOpen = true;
+
+			wait_count = 0;
+		}
+		else
+		{
+			CardOpen();
+
+			if (Judge())
+			{
+				canOpen = true;
+				ScoreManager::AddScore(Now_Player, 2);
 			}
 		}
-		currentOpenNum = 0;
-
-		Now_Player++;
-		if (Now_Player > ScoreManager::GetAll_playerNum() - 1)
-		{
-			Now_Player = 0;
-		}
-		canOpen = true;
-
-		wait_count = 0;
 	}
+	//CPUˆ—
 	else
 	{
-		CardOpen();
-
-		if (Judge())
+		if (CPU_count >= WAIT_FRAME)
 		{
-			canOpen = true;
-			ScoreManager::AddScore(Now_Player, 2);
+
 		}
+		
+		CPU_count++;
 	}
 }
 
