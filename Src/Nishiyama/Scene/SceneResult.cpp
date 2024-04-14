@@ -42,6 +42,7 @@ void SceneResult::Draw()
 {
 	DrawGraph(0, 0, Result_BG_Hndl, true);				//背景画像描画
 	DrawGraph(TextPosX, TextPosY, TextHndl, true);		//テキスト画像描画
+	DrawMousePointa();
 
 	DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
 	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);
@@ -55,4 +56,16 @@ void SceneResult::Fin()
 	DeleteGraph(TextHndl);
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
+}
+
+//マウスポインタ描画処理
+void SceneResult::DrawMousePointa()
+{
+	int mousepoint = 0;
+
+	mousepoint = LoadGraph(MOUSE_POINTA_PATH);
+
+	//マウス位置取得
+	DrawRotaGraph(Input::GetMousePos().x, Input::GetMousePos().y, 0.65f, 0.0f, mousepoint, true);
+
 }
