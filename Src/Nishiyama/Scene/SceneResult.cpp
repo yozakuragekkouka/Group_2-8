@@ -67,8 +67,8 @@ void SceneResult::Draw()
 	DrawRotaGraph(640, 320, 0.7f, 0.0f, PlayerHndl[ScoreManager::GetWinner()], true, false, false);	//勝者プレイヤーの描画
 	DrawRotaGraph(640, 120, 0.7f, 0.0f, ClownHndl, true, false, false);		//王冠画像表示
 
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
-	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);
+	/*DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
+	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);*/
 
 }
 
