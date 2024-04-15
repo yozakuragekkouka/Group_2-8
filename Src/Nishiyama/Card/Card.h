@@ -88,9 +88,6 @@ constexpr char CARD_PATH[(int)Mark::MarkNum][13][128] =
 
 constexpr char CARD_BACK_PATH[128] = "Data/Image/ScenePlay/トランプ裏面_ちび.png";
 
-//SEパス
-constexpr char CARD_SE_PATH[128] = "Data/Sound/ScenePlay/カードをめくる.mp3";
-
 class CardManager
 {
 private:
@@ -109,8 +106,6 @@ private:
 	bool isOpen_now[(int)Mark::MarkNum][13];
 
 	bool isOpened[(int)Mark::MarkNum][13];
-
-	int m_bgmHandle;
 
 public:
 	void Init();

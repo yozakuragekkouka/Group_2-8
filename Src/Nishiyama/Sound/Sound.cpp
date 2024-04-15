@@ -5,12 +5,15 @@ SE_Data SoundEffect::SE[SE_NUM];
 
 const char* BGMkind[BGM_NUM] =
 {
-	"Data/Nishiyama/Sound/NONE.mp3",
+	"Data/Sound/SceneTitle/backbgm.mp3",
+	"Data/Sound/ScenePlay/ScenePlay_Main_Sound.mp3",
 };
 
 const char* SEkind[SE_NUM] =
 {
-	"Data/Nishiyama/Sound/NONE.mp3",
+	"Data/Sound/SceneTitle/決定ボタンを押す12.mp3",
+	"Data/Sound/SceneTitle/決定ボタンを押す47.mp3",
+	"Data/Sound/ScenePlay/カードをめくる.mp3",
 };
 
 //BGMコンストラクタ

@@ -3,6 +3,7 @@
 #include "Card.h"
 #include "../Input/Input.h"
 #include "../Score/ScoreManager/ScoreManager.h"
+#include "../Sound/Sound.h"
 
 void CardManager::Init()
 {
@@ -12,10 +13,6 @@ void CardManager::Init()
 
 	canOpen = true;
 	currentOpenNum = 0;
-
-	//seハンドル
-	m_bgmHandle = LoadSoundMem(CARD_SE_PATH);
-	
 
 	VECTOR Buf_Pos[(int)Mark::MarkNum][13];
 	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
@@ -162,9 +159,6 @@ void CardManager::Draw()
 
 void CardManager::Fin()
 {
-	//カードめくるSE
-	DeleteSoundMem(m_bgmHandle);
-
 	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 	{
 		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
@@ -199,10 +193,9 @@ void CardManager::CardOpen()
 							isOpened[MarkIndex][NumberIndex] = true;
 						}
 
-						//カードめくるSE
-						PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_NORMAL);
+						SoundEffect::Play(SE_KIND::SE_PLAY_CARD);
 
-						if (currentOpenNum == 2)
+						if (currentOpenNum >= 2)
 							canOpen = false;
 					}
 				}
@@ -237,8 +230,6 @@ void CardManager::CardOpen_CPU()
 						{
 							Card1[0] = MarkIndex;
 							Card1[1] = NumberIndex;
-							//カードめくるSE
-							PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_BACK);
 						}
 						else
 						{
@@ -267,16 +258,20 @@ void CardManager::CardOpen_CPU()
 				{
 					isOpen_now[Card1[0]][Card1[1]] = true;
 					currentOpenNum++;
+					SoundEffect::Play(SE_KIND::SE_PLAY_CARD);
+
 					CPU_count = 0;
 				}
 				else
 				{
 					isOpen_now[Card2[0]][Card2[1]] = true;
 					currentOpenNum++;
+					SoundEffect::Play(SE_KIND::SE_PLAY_CARD);
+
 					CPU_count = 0;
 				}
 
-				if (currentOpenNum == 2)
+				if (currentOpenNum >= 2)
 					canOpen = false;
 			}
 			//揃えられる組がなければ
@@ -299,6 +294,7 @@ void CardManager::CardOpen_CPU()
 
 			isOpen_now[Card1[0]][Card1[1]] = true;
 			currentOpenNum++;
+			SoundEffect::Play(SE_KIND::SE_PLAY_CARD);
 
 			if (isOpened[Card1[0]][Card1[1]] == false)
 			{
@@ -308,7 +304,7 @@ void CardManager::CardOpen_CPU()
 
 			CPU_count = 0;
 
-			if (currentOpenNum == 2)
+			if (currentOpenNum >= 2)
 				canOpen = false;
 			}
 		}
@@ -351,7 +347,8 @@ bool CardManager::Judge()
 		}
 
 		//はずれ
-		wait_count++;
+		if (wait_count == 0)
+			wait_count++;
 		return false;
 	}
 	return false;

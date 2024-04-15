@@ -2,12 +2,11 @@
 #include "Scene.h"
 #include "../Card/Card.h"
 #include "../NumberFont/NumberFont.h"
+#include "../Sound/Sound.h"
 
 //プレイシーン背景
 constexpr char PLAY_BG_PATH[128] = "Data/Image/ScenePlay/PlaySceneBackImage.png";
 constexpr char PLAY_MENU_BG_PATH[128] = "Data/Image/ScenePlay/画像8.png";
-//プレイシーンBGM
-constexpr char PLAY_BGM_PATH[128] = "Data/Sound/ScenePlay/ScenePlay_Main_Sound.mp3";
 
 constexpr char PLAYER_IMAGE_PATH[5][128] =
 {
@@ -30,8 +29,8 @@ private:
 
 	CardManager card;
 
-	//ｂｇｍハンドル
-	int m_bgmHandle;
+	BGM_Data PlayBGM;
+
 	//メニュー画像ハンドル
 	int m_MenuHadnle[2];
 	//メニューフラグ

@@ -17,16 +17,8 @@ void SceneTitle::Init()
 	TitleSoloText.RectInit(LoadGraph(TITLE_SOLO_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 120.0f, 0.0f), 371, 89);
 	TitleMultiText.RectInit(LoadGraph(TITLE_MULTI_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 250.0f, 0.0f), 371, 93);
 
-	//ｂｇｍハンドル
-	m_bgmHandle[0] = LoadSoundMem(TITLE_BGM_PATH);
-	//SE_1ハンドル
-	m_bgmHandle[1] = LoadSoundMem(TITLE_SE_PATH);
-	//SE_2ハンドル
-	m_bgmHandle[2] = LoadSoundMem(TITLE_START_BOTTAN_SE_PATH);
-	//ｂｇｍ
-	PlaySoundMem(m_bgmHandle[0], DX_PLAYTYPE_LOOP);
-	ChangeVolumeSoundMem(150, m_bgmHandle[0]);
-	
+	TitleBGM.BGMInit(BGM_KIND::BGM_TITLE);
+
 	for (int i = 0; i < 4; i++)
 	{
 		Card[i].RectInit(LoadGraph(TITLE_MULTI_CARD_PATH[i]), VGet((float)(SCREEN_SIZE_X / 2) + 250.0f, (float)(SCREEN_SIZE_Y / 2) + 250.0f, 0.0f), 91, 129);
@@ -41,26 +33,17 @@ void SceneTitle::Step()
 
 	if (Input::ClickRect_Center(Card[multiNum]))
 	{
-		//SE
-		PlaySoundMem(m_bgmHandle[1], DX_PLAYTYPE_BACK);
-		ChangeVolumeSoundMem(240, m_bgmHandle[1]);
+		SoundEffect::Play(SE_KIND::SE_TITLE_MULTI_CARD);
 		multiNum++;
 		if (multiNum >= 4)
 		{
 			multiNum = 0;
 		}
 	}
-	
-	/*if (Input::PressAnyKey())
-	{
-		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_TITLE;
-	}*/
 
 	if (Input::ClickRect_Center(TitleSoloText))
 	{
-		//SE
-		PlaySoundMem(m_bgmHandle[2], DX_PLAYTYPE_BACK);
-		ChangeVolumeSoundMem(240, m_bgmHandle[2]);
+		SoundEffect::Play(SE_KIND::SE_TITLE_BOTTUN);
 	
 		ScoreManager::SetMulti_Flag(false);
 		ScoreManager::SetAll_playerNum(2);
@@ -69,9 +52,7 @@ void SceneTitle::Step()
 	}
 	if (Input::ClickRect_Center(TitleMultiText))
 	{
-		//SE
-		PlaySoundMem(m_bgmHandle[2], DX_PLAYTYPE_BACK);
-		ChangeVolumeSoundMem(240, m_bgmHandle[2]);
+		SoundEffect::Play(SE_KIND::SE_TITLE_BOTTUN);
 		
 		ScoreManager::SetMulti_Flag(true);
 		ScoreManager::SetAll_playerNum(multiNum + 1);
@@ -105,11 +86,7 @@ void SceneTitle::Fin()
 		Card[i].RectFin();
 	}
 
-	DeleteSoundMem(m_bgmHandle[0]);
-	DeleteSoundMem(m_bgmHandle[1]);
-	
-
 	TitleBGM.FinBGM();
-
+	
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_PLAY;
 }

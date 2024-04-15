@@ -5,7 +5,8 @@
 enum BGM_KIND
 {
 	BGM_NONE = -1,
-	BGM_A,
+	BGM_TITLE,
+	BGM_PLAY,
 
 	BGM_NUM
 };
@@ -14,7 +15,9 @@ enum BGM_KIND
 enum SE_KIND
 {
 	SE_NONE = -1,
-	SE_A,
+	SE_TITLE_BOTTUN,
+	SE_TITLE_MULTI_CARD,
+	SE_PLAY_CARD,
 
 	SE_NUM
 };
