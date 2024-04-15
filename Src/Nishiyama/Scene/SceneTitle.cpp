@@ -17,6 +17,11 @@ void SceneTitle::Init()
 	TitleSoloText.RectInit(LoadGraph(TITLE_SOLO_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 120.0f, 0.0f), 371, 89);
 	TitleMultiText.RectInit(LoadGraph(TITLE_MULTI_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 250.0f, 0.0f), 371, 93);
 	
+	//マウスポインタ
+	mousepoint = LoadGraph(MOUSE_POINTA_PATH);
+	//ｂｇｍハンドル
+	bgmHandle = LoadBGM(TITLE_BGM_PATH);
+
 	for (int i = 0; i < 4; i++)
 	{
 		Card[i].RectInit(LoadGraph(TITLE_MULTI_CARD_PATH[i]), VGet((float)(SCREEN_SIZE_X / 2) + 250.0f, (float)(SCREEN_SIZE_Y / 2) + 250.0f, 0.0f), 91, 129);
@@ -58,6 +63,8 @@ void SceneTitle::Step()
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_TITLE;
 	}
 
+	//ｂｇｍ
+	PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, true);
 }
 
 //タイトル描画処理
@@ -84,6 +91,8 @@ void SceneTitle::Fin()
 		Card[i].RectFin();
 	}
 
+	DeleteSoundMem(bgmHandle);
+
 	TitleBGM.FinBGM();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_PLAY;
@@ -92,9 +101,6 @@ void SceneTitle::Fin()
 //マウスポインタ描画処理
 void SceneTitle::DrawMousePointa()
 {
-	int mousepoint = 0;
-
-	mousepoint = LoadGraph(MOUSE_POINTA_PATH);
 
 	//マウス位置取得
 	DrawRotaGraph(Input::GetMousePos().x, Input::GetMousePos().y, 0.65f, 0.0f, mousepoint, true);
