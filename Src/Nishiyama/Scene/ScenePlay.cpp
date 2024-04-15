@@ -76,6 +76,12 @@ void ScenePlay::Step()
 		card.Step();
 	}
 
+	if (m_MenuFlag == 1)
+	{
+		//マウスクリック処理
+		MouseClick();
+	}
+
 	if (card.AllCard_isDead())
 	{
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_PLAY;
@@ -137,6 +143,13 @@ void ScenePlay::Draw()
 		scorefont[i].Draw_int(ScoreManager::GetScore(i));
 	}
 
+	if (m_MenuFlag == 0)
+	{
+		SetFontSize(26);
+		DrawFormatString(750, 690, GetColor(255, 255, 255), "メニューへはTabキーを押してください", true);
+		SetFontSize(16);
+	}
+
 	//メニュー開いていたら
 	if (m_MenuFlag == 1)
 	{
@@ -148,6 +161,10 @@ void ScenePlay::Draw()
 		DrawRotaGraph(m_TitleBottan_x, m_TitleBottan_y, 0.4f, 0.0f, m_MenuHadnle[1], true);
 		//リトライボタン
 		DrawRotaGraph(m_RetryBottan_x, m_RetryBottan_y, 0.4f, 0.0f, m_MenuHadnle[2], true);
+		
+		SetFontSize(26);
+		DrawFormatString(750, 690, GetColor(255, 255, 255), "戻るにはTabキーを押してください", true);
+		SetFontSize(16);
 	}
 
 }
@@ -162,5 +179,45 @@ void ScenePlay::Fin()
 
 	card.Fin();
 
-	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_RESULT;
+	if (m_MenuFlag == 1)
+	{
+		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
+	}
+	else if (m_MenuFlag == 2)
+	{
+		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_PLAY;
+	}
+	else
+	{
+		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_RESULT;
+	}
+}
+
+void ScenePlay::MouseClick()
+{
+	//タイトルボタン
+	if (m_TitleBottan_x - (215 / 2) < Input::GetMousePos().x + 1 &&
+		m_TitleBottan_x - (215 / 2) + 215 > Input::GetMousePos().x &&
+		m_TitleBottan_y - (73 / 2) + 73 > Input::GetMousePos().y
+		&& m_TitleBottan_y - (73 / 2) < Input::GetMousePos().y + 1)
+	{
+		//左クリックしたとき
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+		{
+			SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_PLAY;
+		}
+	}
+	//リトライボタン
+	if (m_RetryBottan_x - (215 / 2) < Input::GetMousePos().x + 1 &&
+		m_RetryBottan_x - (215 / 2) + 215 > Input::GetMousePos().x &&
+		m_RetryBottan_y - (73 / 2) + 73 > Input::GetMousePos().y
+		&& m_RetryBottan_y - (73 / 2) < Input::GetMousePos().y + 1)
+	{
+		//左クリックしたとき
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+		{
+			m_MenuFlag = 2;
+			SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_PLAY;
+		}
+	}
 }
