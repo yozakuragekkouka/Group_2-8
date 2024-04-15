@@ -50,7 +50,7 @@ void ScenePlay::Init()
 	m_bgmHandle = LoadSoundMem(PLAY_BGM_PATH);
 	//ÇÇÇáÇç
 	PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_LOOP);
-	ChangeVolumeSoundMem(110, m_bgmHandle);
+	ChangeVolumeSoundMem(100, m_bgmHandle);
 
 	card.Init();
 
