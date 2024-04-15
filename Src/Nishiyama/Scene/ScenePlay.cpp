@@ -52,6 +52,9 @@ void ScenePlay::Init()
 	PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_LOOP);
 	ChangeVolumeSoundMem(100, m_bgmHandle);
 
+	//メニュー背景
+	m_MenuHadnle[2] = LoadGraph(PLAY_MENU_BG_PATH);
+
 	card.Init();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_PLAY;
@@ -65,6 +68,26 @@ void ScenePlay::Step()
 	if (card.AllCard_isDead())
 	{
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_PLAY;
+	}
+
+	//0.5秒たったら
+	if (m_MenuFlame >= 30)
+	{
+		//タブキー押したら
+		if (CheckHitKey(KEY_INPUT_TAB) == 1)
+		{
+			//プレイからメニュー
+			if (m_MenuFlag == 0)
+			{
+				m_MenuFlag = 1;
+			}
+			
+			//メニューからプレイ
+			if (m_MenuFlag == 1)
+			{
+				m_MenuFlag = 0;
+			}
+		}
 	}
 }
 

@@ -5,7 +5,7 @@
 
 //プレイシーン背景
 constexpr char PLAY_BG_PATH[128] = "Data/Image/ScenePlay/PlaySceneBackImage.png";
-
+constexpr char PLAY_MENU_BG_PATH[128] = "Data/Image/ScenePlay/画像8.png";
 //プレイシーンBGM
 constexpr char PLAY_BGM_PATH[128] = "Data/Sound/ScenePlay/ScenePlay_Main_Sound.mp3";
 
@@ -32,6 +32,12 @@ private:
 
 	//ｂｇｍハンドル
 	int m_bgmHandle;
+	//メニュー画像ハンドル
+	int m_MenuHadnle[2];
+	//メニューフラグ
+	int m_MenuFlag;
+	//メニューフレーム
+	int m_MenuFlame;
 
 public:
 	void Init();
