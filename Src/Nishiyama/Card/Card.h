@@ -118,4 +118,6 @@ public:
 	bool Judge();
 
 	bool AllCard_isDead();
+
+	int GetNow_Player() const { return Now_Player; }
 };

@@ -7,7 +7,6 @@
 #define TEXT_WIDHT			(500)	//テキストの横幅
 #define TEXT_HEIGHT			(200)	//テキストの縦幅
 
-
 class SceneResult : public SceneBase
 {
 private:
@@ -25,7 +24,4 @@ public:
 	void Draw();
 
 	void Fin();
-
-	//マウスポインタ描画処理
-	void DrawMousePointa();
 };

@@ -1,3 +1,5 @@
+#include <time.h>
+
 #include "DxLib.h"
 #include "Common.h"
 #include "Nishiyama/Input/Input.h"
@@ -10,7 +12,7 @@
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
 	//ウィンドウの状態を設定
-	ChangeWindowMode(false);
+	ChangeWindowMode(FALSE);
 
 	//画面サイズを設定
 	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, 32);
@@ -26,7 +28,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	/*最初に１度だけやる処理*/
+	srand((unsigned int)time(NULL));
+
 	Input::AllInputInit();
+	Input::Mouse_SetCenter();
 
 	SoundEffect::Init();
 

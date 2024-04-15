@@ -36,8 +36,4 @@ public:
 	void Draw();
 
 	void Fin();
-
-	//マウスポインタ描画処理
-	void DrawMousePointa();
-
 };

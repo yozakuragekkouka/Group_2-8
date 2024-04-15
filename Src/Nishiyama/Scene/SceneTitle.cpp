@@ -16,11 +16,9 @@ void SceneTitle::Init()
 
 	TitleSoloText.RectInit(LoadGraph(TITLE_SOLO_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 120.0f, 0.0f), 371, 89);
 	TitleMultiText.RectInit(LoadGraph(TITLE_MULTI_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 250.0f, 0.0f), 371, 93);
-	
-	//マウスポインタ
-	mousepoint = LoadGraph(MOUSE_POINTA_PATH);
+
 	//ｂｇｍハンドル
-	bgmHandle = LoadBGM(TITLE_BGM_PATH);
+	//bgmHandle = LoadBGM(TITLE_BGM_PATH);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -64,7 +62,7 @@ void SceneTitle::Step()
 	}
 
 	//ｂｇｍ
-	PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, true);
+	//PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, true);
 }
 
 //タイトル描画処理
@@ -73,7 +71,6 @@ void SceneTitle::Draw()
 	TitleImage.DrawRect();
 	TitleSoloText.DrawRect_Rota_Center();
 	TitleMultiText.DrawRect_Rota_Center();
-	DrawMousePointa();
 
 	Card[multiNum].DrawRect_Rota_Center();
 }
@@ -91,18 +88,9 @@ void SceneTitle::Fin()
 		Card[i].RectFin();
 	}
 
-	DeleteSoundMem(bgmHandle);
+	//DeleteSoundMem(bgmHandle);
 
 	TitleBGM.FinBGM();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_PLAY;
-}
-
-//マウスポインタ描画処理
-void SceneTitle::DrawMousePointa()
-{
-
-	//マウス位置取得
-	DrawRotaGraph(Input::GetMousePos().x, Input::GetMousePos().y, 0.65f, 0.0f, mousepoint, true);
-
 }

@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "Card.h"
 #include "../Input/Input.h"
 #include "../Score/ScoreManager/ScoreManager.h"
@@ -11,12 +13,29 @@ void CardManager::Init()
 	canOpen = true;
 	currentOpenNum = 0;
 
+	VECTOR Buf_Pos[(int)Mark::MarkNum][13];
 	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 	{
 		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
 		{
-			Card[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_PATH[MarkIndex][NumberIndex]), VGet(Card_FirstPosX + ((float)Card_sizeX + Card_spaceX) * NumberIndex, Card_FirstPosY + ((float)Card_sizeY + Card_spaceY) * MarkIndex, 0.0f), Card_sizeX, Card_sizeY);
-			Card_Back[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_BACK_PATH), VGet(Card_FirstPosX + ((float)Card_sizeX + Card_spaceX) * NumberIndex, Card_FirstPosY + ((float)Card_sizeY + Card_spaceY) * MarkIndex, 0.0f), Card_sizeX, Card_sizeY);
+			Buf_Pos[MarkIndex][NumberIndex] = VGet(Card_FirstPosX + ((float)Card_sizeX + Card_spaceX) * NumberIndex, Card_FirstPosY + ((float)Card_sizeY + Card_spaceY) * MarkIndex, 0.0f);
+		}
+	}
+
+	for (int i = ((int)Mark::MarkNum * 13 - 1); 0 < i; i--)
+	{
+		int r = rand() % ((int)Mark::MarkNum * 13 - i);
+
+		VECTOR tmp = Buf_Pos[i / 13][i % 13];
+		Buf_Pos[i / 13][i % 13] = Buf_Pos[r / 13][r % 13];
+		Buf_Pos[r / 13][r % 13] = tmp;
+	}
+	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
+	{
+		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
+		{
+			Card[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_PATH[MarkIndex][NumberIndex]), Buf_Pos[MarkIndex][NumberIndex], Card_sizeX, Card_sizeY);
+			Card_Back[MarkIndex][NumberIndex].RectInit(LoadGraph(CARD_BACK_PATH), Buf_Pos[MarkIndex][NumberIndex], Card_sizeX, Card_sizeY);
 			isDead[MarkIndex][NumberIndex] = false;
 			isOpen_now[MarkIndex][NumberIndex] = false;
 
