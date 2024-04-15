@@ -13,9 +13,14 @@ void SceneResult::Init()
 	Result_BG_Hndl = LoadGraph(RESULT_BG_PATH);
 	TextHndl = LoadGraph(TEXT_PATH);
 
+	BGM_Hndl = LoadSoundMem(RESULT_BMG_PATH);			//BGM読み込み
+	TAPSound_Hndl = LoadSoundMem(RESULT_TAP_PATH);		//決定音読み込み
+
 	TextPosX = 400;
 	TextPosY = 470;
 	MousePosX = MousePosY = 0;
+
+	PlaySoundMem(BGM_Hndl, DX_PLAYTYPE_LOOP);
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_RESULT;
 }
@@ -32,6 +37,7 @@ void SceneResult::Step()
 		if (MousePosX > TextPosX && MousePosX < TextPosX + TEXT_WIDHT
 			&& MousePosY > TextPosY && MousePosY < TextPosY + TEXT_HEIGHT)
 		{
+			PlaySoundMem(TAPSound_Hndl, DX_PLAYTYPE_NORMAL);
 			SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_RESULT;
 		}
 	}
@@ -43,8 +49,8 @@ void SceneResult::Draw()
 	DrawGraph(0, 0, Result_BG_Hndl, true);				//背景画像描画
 	DrawGraph(TextPosX, TextPosY, TextHndl, true);		//テキスト画像描画
 
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
-	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);
+	/*DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
+	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);*/
 
 }
 
@@ -53,6 +59,9 @@ void SceneResult::Fin()
 {
 	DeleteGraph(Result_BG_Hndl);
 	DeleteGraph(TextHndl);
+
+	DeleteSoundMem(BGM_Hndl);
+	DeleteSoundMem(TAPSound_Hndl);
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
 }
