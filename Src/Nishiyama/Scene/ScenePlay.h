@@ -27,7 +27,6 @@ private:
 
 	CardManager card;
 
-	int mousepoint;
 
 public:
 	void Init();
