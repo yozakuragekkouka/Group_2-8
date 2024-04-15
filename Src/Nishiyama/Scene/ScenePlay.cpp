@@ -50,7 +50,16 @@ void ScenePlay::Init()
 	PlayBGM.BGMInit(BGM_KIND::BGM_PLAY);
 
 	//メニュー背景
-	m_MenuHadnle[2] = LoadGraph(PLAY_MENU_BG_PATH);
+	m_MenuHadnle[0] = LoadGraph(PLAY_MENU_BG_PATH);
+	//タイトルボタン
+	m_MenuHadnle[1] = LoadGraph(MENU_BOTTAN_TITLE_PATH);
+	//リトライボタン
+	m_MenuHadnle[2] = LoadGraph(MENU_BOTTAN_RETRY_PATH);
+	m_MenuFlame = 0;
+	//ボタン座標
+	m_TitleBottan_x = 300;
+	m_RetryBottan_x = 800;
+	m_TitleBottan_y = m_RetryBottan_y = 350;
 
 	card.Init();
 
@@ -60,7 +69,12 @@ void ScenePlay::Init()
 //プレイシーン通常処理
 void ScenePlay::Step()
 {
-	card.Step();
+	m_MenuFlame++;
+	//メニュー開いてなかったら
+	if (m_MenuFlag == 0)
+	{
+		card.Step();
+	}
 
 	if (card.AllCard_isDead())
 	{
@@ -77,15 +91,19 @@ void ScenePlay::Step()
 			if (m_MenuFlag == 0)
 			{
 				m_MenuFlag = 1;
+				m_MenuFlame = 0;
+				
 			}
-			
 			//メニューからプレイ
-			if (m_MenuFlag == 1)
+			else if (m_MenuFlag == 1)
 			{
 				m_MenuFlag = 0;
+				m_MenuFlame = 0;
 			}
 		}
 	}
+
+	
 }
 
 //プレイシーン描画処理
@@ -118,6 +136,20 @@ void ScenePlay::Draw()
 	{
 		scorefont[i].Draw_int(ScoreManager::GetScore(i));
 	}
+
+	//メニュー開いていたら
+	if (m_MenuFlag == 1)
+	{
+		//背景
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+		DrawRotaGraph(100, 100, 2.0f, 0.0f, m_MenuHadnle[0], true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		//タイトルボタン
+		DrawRotaGraph(m_TitleBottan_x, m_TitleBottan_y, 0.4f, 0.0f, m_MenuHadnle[1], true);
+		//リトライボタン
+		DrawRotaGraph(m_RetryBottan_x, m_RetryBottan_y, 0.4f, 0.0f, m_MenuHadnle[2], true);
+	}
+
 }
 
 //プレイシーン後処理

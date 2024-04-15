@@ -7,6 +7,14 @@
 //プレイシーン背景
 constexpr char PLAY_BG_PATH[128] = "Data/Image/ScenePlay/PlaySceneBackImage.png";
 constexpr char PLAY_MENU_BG_PATH[128] = "Data/Image/ScenePlay/画像8.png";
+<<<<<<< Updated upstream
+=======
+//プレイシーンBGM
+constexpr char PLAY_BGM_PATH[128] = "Data/Sound/ScenePlay/ScenePlay_Main_Sound.mp3";
+//メニューボタン
+constexpr char MENU_BOTTAN_TITLE_PATH[128] = "Data/Image/ScenePlay/ReturnTitleBottan.png";
+constexpr char MENU_BOTTAN_RETRY_PATH[128] = "Data/Image/ScenePlay/RetryBottan.png";
+>>>>>>> Stashed changes
 
 constexpr char PLAYER_IMAGE_PATH[5][128] =
 {
@@ -32,12 +40,16 @@ private:
 	BGM_Data PlayBGM;
 
 	//メニュー画像ハンドル
-	int m_MenuHadnle[2];
+	int m_MenuHadnle[3];
 	//メニューフラグ
-	int m_MenuFlag;
+	int m_MenuFlag = 0;
 	//メニューフレーム
 	int m_MenuFlame;
-
+	//ボタン座標
+	int m_TitleBottan_x;
+	int m_TitleBottan_y;
+	int m_RetryBottan_x;
+	int m_RetryBottan_y;
 public:
 	void Init();
 	void Step();
