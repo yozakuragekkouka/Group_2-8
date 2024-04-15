@@ -6,6 +6,9 @@
 //プレイシーン背景
 constexpr char PLAY_BG_PATH[128] = "Data/Image/ScenePlay/PlaySceneBackImage.png";
 
+//プレイシーンBGM
+constexpr char PLAY_BGM_PATH[128] = "Data/Sound/ScenePlay/ScenePlay_Main_Sound.mp3";
+
 constexpr char PLAYER_IMAGE_PATH[5][128] =
 {
 	"Data/Image/ScenePlay/プレイヤー1.png",
@@ -27,6 +30,8 @@ private:
 
 	CardManager card;
 
+	//ｂｇｍハンドル
+	int m_bgmHandle;
 
 public:
 	void Init();

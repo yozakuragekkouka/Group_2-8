@@ -13,6 +13,10 @@ void CardManager::Init()
 	canOpen = true;
 	currentOpenNum = 0;
 
+	//seハンドル
+	m_bgmHandle = LoadSoundMem(CARD_SE_PATH);
+	
+
 	VECTOR Buf_Pos[(int)Mark::MarkNum][13];
 	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 	{
@@ -127,7 +131,6 @@ void CardManager::Step()
 		else
 		{
 			CardOpen();
-
 			if (Judge())
 			{
 				canOpen = true;
@@ -159,6 +162,9 @@ void CardManager::Draw()
 
 void CardManager::Fin()
 {
+	//カードめくるSE
+	DeleteSoundMem(m_bgmHandle);
+
 	for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 	{
 		for (int NumberIndex = 0; NumberIndex < 13; NumberIndex++)
@@ -193,6 +199,9 @@ void CardManager::CardOpen()
 							isOpened[MarkIndex][NumberIndex] = true;
 						}
 
+						//カードめくるSE
+						PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_NORMAL);
+
 						if (currentOpenNum == 2)
 							canOpen = false;
 					}
@@ -219,18 +228,23 @@ void CardManager::CardOpen_CPU()
 				for (int MarkIndex = 0; MarkIndex < (int)Mark::MarkNum; MarkIndex++)
 				{
 					if (isDead[MarkIndex][NumberIndex])
+					{
 						continue;
+					}
 					if (isOpened[MarkIndex][NumberIndex])
 					{
 						if (Card1[0] == -1)
 						{
 							Card1[0] = MarkIndex;
 							Card1[1] = NumberIndex;
+							//カードめくるSE
+							PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_BACK);
 						}
 						else
 						{
 							Card2[0] = MarkIndex;
 							Card2[1] = NumberIndex;
+							
 							break;
 						}
 					}
@@ -253,14 +267,12 @@ void CardManager::CardOpen_CPU()
 				{
 					isOpen_now[Card1[0]][Card1[1]] = true;
 					currentOpenNum++;
-
 					CPU_count = 0;
 				}
 				else
 				{
 					isOpen_now[Card2[0]][Card2[1]] = true;
 					currentOpenNum++;
-
 					CPU_count = 0;
 				}
 
@@ -290,6 +302,7 @@ void CardManager::CardOpen_CPU()
 
 			if (isOpened[Card1[0]][Card1[1]] == false)
 			{
+				
 				isOpened[Card1[0]][Card1[1]] = true;
 			}
 

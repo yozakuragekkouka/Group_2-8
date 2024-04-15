@@ -46,6 +46,12 @@ void ScenePlay::Init()
 	}
 	Back.RectInit(LoadGraph(PLAY_BG_PATH), VGet(0.0f, 0.0f, 0.0f), 1280, 720);
 
+	//ｂｇｍハンドル
+	m_bgmHandle = LoadSoundMem(PLAY_BGM_PATH);
+	//ｂｇｍ
+	PlaySoundMem(m_bgmHandle, DX_PLAYTYPE_LOOP);
+	ChangeVolumeSoundMem(110, m_bgmHandle);
+
 	card.Init();
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_LOOP_PLAY;
@@ -98,6 +104,7 @@ void ScenePlay::Draw()
 //リトライかどうかを返す
 void ScenePlay::Fin()
 {
+	DeleteSoundMem(m_bgmHandle);
 	Back.RectFin();
 
 	card.Fin();

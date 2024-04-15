@@ -18,7 +18,12 @@ void SceneTitle::Init()
 	TitleMultiText.RectInit(LoadGraph(TITLE_MULTI_TEXT_PATH), VGet((float)(SCREEN_SIZE_X / 2), (float)(SCREEN_SIZE_Y / 2) + 250.0f, 0.0f), 371, 93);
 
 	//ｂｇｍハンドル
-	bgmHandle = LoadBGM(TITLE_BGM_PATH);
+	m_bgmHandle[0] = LoadSoundMem(TITLE_BGM_PATH);
+
+	//ｂｇｍ
+	PlaySoundMem(m_bgmHandle[0], DX_PLAYTYPE_LOOP);
+	ChangeVolumeSoundMem(150, m_bgmHandle[0]);
+	
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -31,6 +36,7 @@ void SceneTitle::Init()
 //タイトル通常処理
 void SceneTitle::Step()
 {
+
 	if (Input::ClickRect_Center(Card[multiNum]))
 	{
 		multiNum++;
@@ -61,8 +67,6 @@ void SceneTitle::Step()
 		SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_FIN_TITLE;
 	}
 
-	//ｂｇｍ
-	PlaySoundMem(bgmHandle, DX_PLAYTYPE_LOOP, true);
 }
 
 //タイトル描画処理
@@ -88,7 +92,7 @@ void SceneTitle::Fin()
 		Card[i].RectFin();
 	}
 
-	DeleteSoundMem(bgmHandle);
+	DeleteSoundMem(m_bgmHandle[0]);
 
 	TitleBGM.FinBGM();
 

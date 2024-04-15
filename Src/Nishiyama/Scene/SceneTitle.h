@@ -10,6 +10,7 @@ constexpr char TITLE_MULTI_TEXT_PATH[128] = "Data/Image/SceneTitle/TitleBottan2.
 //ｂｇｍパス
 constexpr char TITLE_BGM_PATH[128] = "Data/Sound/backbgm.mp3";
 
+
 constexpr char TITLE_MULTI_CARD_PATH[4][128] = 
 {
 	"Data/Image/ScenePlay/トランプスペード_1.png",
@@ -24,7 +25,7 @@ class SceneTitle : public SceneBase
 private:
 	int multiNum;	
 	//ｂｇｍハンドル
-	int bgmHandle;
+	int m_bgmHandle[2];
 
 	Rect_Data TitleImage;
 
