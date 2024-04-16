@@ -11,6 +11,22 @@
 //クリア初期化
 void SceneResult::Init()
 {
+	for (int i = 0; i < 4; i++)
+	{
+		scorefont[i].Init();
+		scorefont[i].SetNumberFont(Number_16_32_orange);
+
+		if (i % 2 == 1)
+			scorefont[i].Set_posX(SCREEN_SIZE_X / 2 + 100);
+		else
+			scorefont[i].Set_posX(SCREEN_SIZE_X / 2 - 100);
+
+		if (i >= 2)
+			scorefont[i].Set_posY(SCREEN_SIZE_Y / 2 + 100);
+		else
+			scorefont[i].Set_posY(SCREEN_SIZE_Y / 2 - 100);
+	}
+
 	Result_BG_Hndl = LoadGraph(RESULT_BG_PATH);
 	TextHndl = LoadGraph(TEXT_PATH);
 
@@ -64,8 +80,13 @@ void SceneResult::Draw()
 	DrawGraph(0, 0, Result_BG_Hndl, true);				//背景画像描画
 	DrawGraph(TextPosX, TextPosY, TextHndl, true);		//テキスト画像描画
 
-	DrawRotaGraph(640, 320, 0.7f, 0.0f, PlayerHndl[ScoreManager::GetWinner()], true, false, false);	//勝者プレイヤーの描画
-	DrawRotaGraph(640, 120, 0.7f, 0.0f, ClownHndl, true, false, false);		//王冠画像表示
+	//DrawRotaGraph(640, 320, 0.7f, 0.0f, PlayerHndl[ScoreManager::GetWinner()], true, false, false);	//勝者プレイヤーの描画
+	//DrawRotaGraph(640, 120, 0.7f, 0.0f, ClownHndl, true, false, false);		//王冠画像表示
+
+	for (int i = 0; i < ScoreManager::GetAll_playerNum(); i++)
+	{
+		scorefont[i].Draw_int(ScoreManager::GetScore(i));
+	}
 
 	/*DrawFormatString(0, 0, GetColor(255, 255, 255), "マウスのX座標：%d", MousePosX);
 	DrawFormatString(0, 15, GetColor(255, 255, 255), "マウスのY座標：%d", MousePosY);*/
@@ -87,6 +108,12 @@ void SceneResult::Fin()
 
 	DeleteSoundMem(BGM_Hndl);
 	DeleteSoundMem(TAPSound_Hndl);
+
+	for (int i = 0; i < 4; i++)
+	{
+		scorefont[i].Fin();
+	}
+
 
 	SceneManager::g_CurrenySceneID = SCENEID::SCENE_ID_INIT_TITLE;
 }

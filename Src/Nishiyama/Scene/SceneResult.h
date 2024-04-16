@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "../NumberFont/NumberFont.h"
 
 #define RESULT_BG_PATH		"Data/Image/SceneResult/Result_BG.png"
 #define TEXT_PATH			"Data/Image/SceneResult/Text.png"
@@ -15,6 +16,7 @@
 class SceneResult : public SceneBase
 {
 private:
+	c_Number scorefont[4];
 	int Result_BG_Hndl;		//背景画像格納変数
 	int TextHndl;			//テキスト画像格納変数
 	int TextPosX, TextPosY;	//テキストの座標変数
